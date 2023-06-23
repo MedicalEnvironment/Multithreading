@@ -2,6 +2,7 @@
 #include <thread>
 #include <chrono>
 #include <cctype>
+#include <mutex>
 
 std::mutex stationMutex;
 bool stationOccupied = false;
