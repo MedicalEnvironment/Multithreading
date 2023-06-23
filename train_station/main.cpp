@@ -2,26 +2,20 @@
 #include <thread>
 #include <chrono>
 #include <cctype>
-#include <mutex>
 
 std::mutex stationMutex;
-bool stationOccupied = false;
+int trainsArrived = 0;
 
 void trainArrival(char symbol, int travelTime) {
     std::this_thread::sleep_for(std::chrono::seconds(travelTime));
 
     std::unique_lock<std::mutex> lock(stationMutex);
     std::cout << "Train " << symbol << " has arrived at the station.\n";
-
-    while (stationOccupied) {
-        std::cout << "Train " << symbol << " is waiting for a free seat.\n";
-        lock.unlock();
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-        lock.lock();
+    ++trainsArrived;
+    if (trainsArrived == 3) {
+        std::cout << "All trains have arrived at the station.\n";
+        return;
     }
-
-    stationOccupied = true;
-    std::cout << "Train " << symbol << " is in the station.\n";
     lock.unlock();
 
     // Wait for the departure signal
@@ -30,7 +24,6 @@ void trainArrival(char symbol, int travelTime) {
         std::cin >> command;
         if (command == "depart") {
             std::unique_lock<std::mutex> lock(stationMutex);
-            stationOccupied = false;
             std::cout << "Train " << symbol << " has departed from the station.\n";
             break;
         }
