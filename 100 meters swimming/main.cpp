@@ -84,11 +84,11 @@ int main() {
 
     // Display the final results
     std::cout << "\nFinal Results:\n";
-    std::cout << "-----------------------------\n";
-    std::cout << "Swimmer\t\tTime (seconds)\n";
-    std::cout << "-----------------------------\n";
+    std::cout << "-----------------------------------\n";
+    std::cout << "Swimmer\t\tDistance (meters)\n";
+    std::cout << "-----------------------------------\n";
     for (const auto& swimmer : swimmers) {
-        std::cout << swimmer.name << "\t\t" << swimmer.position / swimmer.speed << "\n";
+        std::cout << swimmer.name << "\t\t" << swimmer.position << "\n";
     }
 
     return 0;
