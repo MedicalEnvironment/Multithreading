@@ -21,6 +21,11 @@ void swim(Swimmer& swimmer, int& count) {
 
         // Increment the count atomically
         ++count;
+
+        // Print swimmer's progress
+        std::cout << swimmer.name << " has swum " << swimmer.position << " meters.\n";
+
+        std::this_thread::sleep_for(std::chrono::seconds(1));
     }
 }
 
@@ -64,12 +69,6 @@ int main() {
     // Create threads for each swimmer
     for (auto& swimmer : swimmers) {
         threads.emplace_back(swim, std::ref(swimmer), std::ref(count));
-    }
-
-    // Check the count in a loop until all swimmers have reached the mark
-    while (count < 6) {
-        std::cout << count << " swimmers have swum.\n";
-        std::this_thread::sleep_for(std::chrono::seconds(1));
     }
 
     // Wait for all threads to finish
